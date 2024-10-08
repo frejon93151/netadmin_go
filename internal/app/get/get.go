@@ -44,6 +44,7 @@ func doGet(opts doGetOpts) (resp *http.Response, err error) {
 		utils.RenewAccessToken()
 		doGet(opts)
 	}
+
 	return
 }
 
