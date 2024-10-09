@@ -8,6 +8,8 @@ import (
 
 	"github.com/frejon93151/netadmin_go/internal/app/get"
 	"github.com/frejon93151/netadmin_go/internal/app/models"
+	"github.com/frejon93151/netadmin_go/internal/app/post"
+	"github.com/frejon93151/netadmin_go/internal/app/put"
 )
 
 var Get = &getStruct{
@@ -16,8 +18,24 @@ var Get = &getStruct{
 	PhysicalInterfaces:      get.PhysicalInterfaces,
 }
 
+var Post = &postStruct{
+	DeviceClone: post.DeviceClone,
+}
+
+var Put = &putStruct{
+	Device: put.Device,
+}
+
 func NewFilterResp[T comparable]() *models.FilterResp[T] {
 	return &models.FilterResp[T]{}
+}
+
+var Models = &modelsStruct{
+	DeviceDTO:      models.DeviceDTO{},
+	DeviceGetOpts:  models.DeviceGetOpts{},
+	DevicePostOpts: models.DevicePostOpts{},
+	PhysDTO:        models.PhysDTO{},
+	PhysGetOpts:    models.PhysGetOpts{},
 }
 
 type getStruct struct {
@@ -26,5 +44,18 @@ type getStruct struct {
 	PhysicalInterfaces      func(models.PhysGetOpts) (*http.Response, error)
 }
 
+type postStruct struct {
+	DeviceClone func(int, models.DevicePostOpts) (*http.Response, error)
+}
+
+type putStruct struct {
+	Device func(int, models.DevicePostOpts) (*http.Response, error)
+}
+
 type modelsStruct struct {
+	DeviceDTO      models.DeviceDTO
+	DeviceGetOpts  models.DeviceGetOpts
+	DevicePostOpts models.DevicePostOpts
+	PhysDTO        models.PhysDTO
+	PhysGetOpts    models.PhysGetOpts
 }
