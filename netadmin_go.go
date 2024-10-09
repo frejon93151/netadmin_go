@@ -12,25 +12,25 @@ import (
 	"github.com/frejon93151/netadmin_go/internal/app/put"
 )
 
-var Get = &getStruct{
+var Get = getStruct{
 	Devices:                 get.Devices,
 	DevicePhysicalInterface: get.DevicePhysicalInterfaces,
 	PhysicalInterfaces:      get.PhysicalInterfaces,
 }
 
-var Post = &postStruct{
+var Post = postStruct{
 	DeviceClone: post.DeviceClone,
 }
 
-var Put = &putStruct{
+var Put = putStruct{
 	Device: put.Device,
 }
 
-func NewFilterResp[T comparable]() *models.FilterResp[T] {
-	return &models.FilterResp[T]{}
+func NewFilterResp[T comparable]() models.FilterResp[T] {
+	return models.FilterResp[T]{}
 }
 
-var Models = &modelsStruct{
+var Models = modelsStruct{
 	DeviceDTO:      models.DeviceDTO{},
 	DeviceGetOpts:  models.DeviceGetOpts{},
 	DevicePostOpts: models.DevicePostOpts{},
