@@ -12,6 +12,7 @@ type FilterResp[T comparable] struct {
 	TotalItems       int `json:"totalItems"`
 	StartIndex       int `json:"startIndex"`
 	CurrentItemCount int `json:"currentItemCount"`
+	Items            T   `json:"items"`
 }
 
 /*
