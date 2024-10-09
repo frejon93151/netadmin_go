@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	models "github.com/frejon93151/netadmin_go/internal/app/models"
+	models "github.com/frejon93151/netadmin_go/internal/app/Models"
 )
 
 func PhysicalInterfaces(opts models.PhysGetOpts) (resp *http.Response, err error) {
@@ -22,7 +22,7 @@ func PhysicalInterfaces(opts models.PhysGetOpts) (resp *http.Response, err error
 }
 
 func physParams(opts models.PhysGetOpts) (params *url.Values, err error) {
-	for _, item := range *opts.Ids {
+	for _, item := range opts.Ids {
 		params.Add("ids", fmt.Sprintf("%d", item))
 	}
 	params.Add("name", opts.Name)
