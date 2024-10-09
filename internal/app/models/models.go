@@ -1,7 +1,7 @@
 /*
 Copyright © 2024 HALMSTADS STADSNÄT AB fredrik.jonsson1@halmstad.se
 */
-package models
+package Models
 
 /*
 Paginated response
