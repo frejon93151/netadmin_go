@@ -30,12 +30,12 @@ func NewFilterResp[T comparable]() models.FilterResp[T] {
 	return models.FilterResp[T]{}
 }
 
-var Models = modelsStruct{
-	DeviceDTO:      models.DeviceDTO{},
-	DeviceGetOpts:  models.DeviceGetOpts{},
-	DevicePostOpts: models.DevicePostOpts{},
-	PhysDTO:        models.PhysDTO{},
-	PhysGetOpts:    models.PhysGetOpts{},
+type Models interface {
+	models.DeviceDTO
+	models.DeviceGetOpts
+	models.DevicePostOpts
+	models.PhysDTO
+	models.PhysGetOpts
 }
 
 type getStruct struct {
