@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	models "github.com/frejon93151/netadmin_go/internal/app/models"
+	models "github.com/frejon93151/netadmin_go/internal/app/Models"
 	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
 
@@ -46,13 +46,13 @@ func deviceParams(opts models.DeviceGetOpts) (params *url.Values, err error) {
 			utils.NameOf(opts.ManagementAddresses))
 		return
 	}
-	for _, item := range *opts.Ids {
+	for _, item := range opts.Ids {
 		params.Add("ids", fmt.Sprintf("%d", item))
 	}
-	for _, item := range *opts.CompanyIds {
+	for _, item := range opts.CompanyIds {
 		params.Add("companyIds", fmt.Sprintf("%d", item))
 	}
-	for _, item := range *opts.ManagementAddresses {
+	for _, item := range opts.ManagementAddresses {
 		params.Add("managementAddresses", item)
 	}
 	params.Add("name", opts.Name)
