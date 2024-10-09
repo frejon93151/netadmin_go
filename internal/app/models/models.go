@@ -45,41 +45,41 @@ type DeviceDTO struct {
 }
 
 type DevicePostOpts struct {
-	IncludeCredentials       *bool   `json:"includeCredentials"`
-	Name                     *string `json:"name"`
-	ManagementAddress        *string `json:"managementAddress"`
-	HostName                 *string `json:"hostName"`
-	ReferenceName            *string `json:"referenceName"`
-	SerialNumber             *string `json:"serialNumber"`
-	AdministrativeStatus     *string `json:"administrativeStatus"`
-	OperationalStatus        *string `json:"operationalStatus"`
-	CustomerId               *int    `json:"customerId"`
-	SiteId                   *int    `json:"siteId"`
-	AddressId                *int    `json:"addressId"`
-	DeviceDefinitionsVersion *string `json:"deviceDefinitionsVersion"`
-	Software                 *string `json:"software"`
-	SoftwareVersion          *string `json:"softwareVersion"`
+	IncludeCredentials       *bool  `json:"includeCredentials,omitempty"`
+	Name                     string `json:"name,omitempty"`
+	ManagementAddress        string `json:"managementAddress,omitempty"`
+	HostName                 string `json:"hostName,omitempty"`
+	ReferenceName            string `json:"referenceName,omitempty"`
+	SerialNumber             string `json:"serialNumber,omitempty"`
+	AdministrativeStatus     string `json:"administrativeStatus,omitempty"`
+	OperationalStatus        string `json:"operationalStatus,omitempty"`
+	CustomerId               *int   `json:"customerId,omitempty"`
+	SiteId                   *int   `json:"siteId,omitempty"`
+	AddressId                *int   `json:"addressId,omitempty"`
+	DeviceDefinitionsVersion string `json:"deviceDefinitionsVersion,omitempty"`
+	Software                 string `json:"software,omitempty"`
+	SoftwareVersion          string `json:"softwareVersion,omitempty"`
 }
 
 type DeviceGetOpts struct {
-	Ids                  []int    `json:"ids"`
-	CompanyIds           []int    `json:"companyIds"`
-	ManagementAddresses  []string `json:"managementAddresses"`
-	Name                 string   `json:"name"`
-	ManagementAddress    string   `json:"managementAddress"`
-	HostName             string   `json:"hostName"`
-	SerialNumber         string   `json:"serialNumber"`
-	DeviceFunction       string   `json:"deviceFunction"`
-	TypeName             string   `json:"typeName"`
-	DefinitionName       string   `json:"definitionName"`
-	Software             string   `json:"software"`
-	AlertGroup           string   `json:"alertGroup"`
-	AdministrativeStatus string   `json:"administrativeStatus"`
-	OperationalStatus    string   `json:"operationalStatus"`
-	ModifiedSince        string   `json:"modifiedSince"`
-	PageIndex            int      `json:"pageIndex"`
-	ItemsPerPage         int      `json:"itemsPerPage"`
-	OnlyRootDevices      bool     `json:"onlyRootDevices"`
+	Ids                  *[]int    `json:"ids,omitempty"`
+	CompanyIds           *[]int    `json:"companyIds,omitempty"`
+	ManagementAddresses  *[]string `json:"managementAddresses,omitempty"`
+	Name                 string    `json:"name,omitempty"`
+	ManagementAddress    string    `json:"managementAddress,omitempty"`
+	HostName             string    `json:"hostName,omitempty"`
+	SerialNumber         string    `json:"serialNumber,omitempty"`
+	DeviceFunction       string    `json:"deviceFunction,omitempty"`
+	TypeName             string    `json:"typeName,omitempty"`
+	DefinitionName       string    `json:"definitionName,omitempty"`
+	Software             string    `json:"software,omitempty"`
+	AlertGroup           string    `json:"alertGroup,omitempty"`
+	AdministrativeStatus string    `json:"administrativeStatus,omitempty"`
+	OperationalStatus    string    `json:"operationalStatus,omitempty"`
+	ModifiedSince        string    `json:"modifiedSince,omitempty"`
+	PageIndex            *int      `json:"pageIndex,omitempty"`
+	ItemsPerPage         *int      `json:"itemsPerPage,omitempty"`
+	OnlyRootDevices      *bool     `json:"onlyRootDevices,omitempty"`
 }
 
 /*
@@ -107,15 +107,15 @@ type PhysDTO struct {
 }
 
 type PhysGetOpts struct {
-	Ids          []int  `json:"ids"`
-	Name         string `json:"name"`
-	DeviceName   string `json:"deviceName"`
-	Identifier   string `json:"identifier"`
-	Option82     string `json:"option82"`
-	Fqpn         string `json:"fqpn"`
-	Number       int    `json:"number"`
-	DeviceId     int    `json:"deviceId"`
-	AddressId    int    `json:"addressId"`
-	PageIndex    int    `json:"pageIndex"`
-	ItemsPerPage int    `json:"itemsPerPage"`
+	Ids          *[]int `json:"ids,omitempty"`
+	Name         string `json:"name,omitempty"`
+	DeviceName   string `json:"deviceName,omitempty"`
+	Identifier   string `json:"identifier,omitempty"`
+	Option82     string `json:"option82,omitempty"`
+	Fqpn         string `json:"fqpn,omitempty"`
+	Number       *int   `json:"number,omitempty"`
+	DeviceId     *int   `json:"deviceId,omitempty"`
+	AddressId    *int   `json:"addressId,omitempty"`
+	PageIndex    *int   `json:"pageIndex,omitempty"`
+	ItemsPerPage *int   `json:"itemsPerPage,omitempty"`
 }
