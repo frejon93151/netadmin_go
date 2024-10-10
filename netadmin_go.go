@@ -14,13 +14,13 @@ import (
 )
 
 var Get = &getStruct{
-	Devices: func(opts *DeviceGetOpts) (resp http.Response, err error) {
+	Devices: func(opts *DeviceGetOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.DeviceGetOpts](opts)
 		resp, err = get.Devices(newOpts)
 		return
 	},
 	DevicePhysicalInterface: get.DevicePhysicalInterfaces,
-	PhysicalInterfaces: func(opts *PhysGetOpts) (resp http.Response, err error) {
+	PhysicalInterfaces: func(opts *PhysGetOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.PhysGetOpts](opts)
 		resp, err = get.PhysicalInterfaces(newOpts)
 		return
@@ -28,7 +28,7 @@ var Get = &getStruct{
 }
 
 var Post = &postStruct{
-	DeviceClone: func(id int, opts *DevicePostOpts) (resp http.Response, err error) {
+	DeviceClone: func(id int, opts *DevicePostOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.DevicePostOpts](opts)
 		resp, err = post.DeviceClone(id, newOpts)
 		return
@@ -36,7 +36,7 @@ var Post = &postStruct{
 }
 
 var Put = &putStruct{
-	Device: func(id int, opts *DevicePostOpts) (resp http.Response, err error) {
+	Device: func(id int, opts *DevicePostOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.DevicePostOpts](opts)
 		resp, err = put.Device(id, newOpts)
 		return
@@ -48,17 +48,17 @@ func NewFilterResp[T comparable]() FilterResp[T] {
 }
 
 type getStruct struct {
-	Devices                 func(*DeviceGetOpts) (http.Response, error)
-	DevicePhysicalInterface func(int, int, int) (http.Response, error)
-	PhysicalInterfaces      func(*PhysGetOpts) (http.Response, error)
+	Devices                 func(*DeviceGetOpts) (*http.Response, error)
+	DevicePhysicalInterface func(int, int, int) (*http.Response, error)
+	PhysicalInterfaces      func(*PhysGetOpts) (*http.Response, error)
 }
 
 type postStruct struct {
-	DeviceClone func(int, *DevicePostOpts) (http.Response, error)
+	DeviceClone func(int, *DevicePostOpts) (*http.Response, error)
 }
 
 type putStruct struct {
-	Device func(int, *DevicePostOpts) (http.Response, error)
+	Device func(int, *DevicePostOpts) (*http.Response, error)
 }
 
 type FilterResp[T comparable] models.FilterResp[T]
