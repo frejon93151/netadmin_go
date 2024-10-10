@@ -13,7 +13,7 @@ import (
 	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
 
-var Get = getStruct{
+var Get = &getStruct{
 	Devices: func(opts DeviceGetOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.DeviceGetOpts](opts)
 		resp, err = get.Devices(newOpts)
@@ -27,7 +27,7 @@ var Get = getStruct{
 	},
 }
 
-var Post = postStruct{
+var Post = &postStruct{
 	DeviceClone: func(id int, opts DevicePostOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.DevicePostOpts](opts)
 		resp, err = post.DeviceClone(id, newOpts)
@@ -35,7 +35,7 @@ var Post = postStruct{
 	},
 }
 
-var Put = putStruct{
+var Put = &putStruct{
 	Device: func(id int, opts DevicePostOpts) (resp *http.Response, err error) {
 		newOpts := utils.MapStruct[models.DevicePostOpts](opts)
 		resp, err = put.Device(id, newOpts)
