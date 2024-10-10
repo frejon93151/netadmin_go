@@ -12,29 +12,31 @@ import (
 	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
 
-func Devices(opts models.DeviceGetOpts) (resp *http.Response, err error) {
+func Devices(opts models.DeviceGetOpts) (resp http.Response, err error) {
 	params, err := deviceParams(opts)
 	if err != nil {
 		return
 	}
 
-	resp, err = doGet(doGetOpts{
+	res, err := doGet(doGetOpts{
 		endpoint: devices,
 		params:   params,
 	})
+	resp = *res
 	return
 }
 
-func DevicePhysicalInterfaces(id int, pageIndex int, itemsPerPage int) (resp *http.Response, err error) {
+func DevicePhysicalInterfaces(id int, pageIndex int, itemsPerPage int) (resp http.Response, err error) {
 	params := &url.Values{
 		"pageIndex":    {fmt.Sprintf("%d", pageIndex)},
 		"itemsPerPage": {fmt.Sprintf("%d", itemsPerPage)},
 	}
 
-	resp, err = doGet(doGetOpts{
+	res, err := doGet(doGetOpts{
 		endpoint: fmt.Sprintf(devicePhysTempl, id),
 		params:   params,
 	})
+	resp = *res
 	return
 }
 

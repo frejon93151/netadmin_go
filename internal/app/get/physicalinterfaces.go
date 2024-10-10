@@ -11,13 +11,14 @@ import (
 	"github.com/frejon93151/netadmin_go/internal/app/models"
 )
 
-func PhysicalInterfaces(opts models.PhysGetOpts) (resp *http.Response, err error) {
+func PhysicalInterfaces(opts models.PhysGetOpts) (resp http.Response, err error) {
 	params, err := physParams(opts)
 	if err != nil {
 		return
 	}
 
-	resp, err = doGet(doGetOpts{endpoint: phys, params: params})
+	res, err := doGet(doGetOpts{endpoint: phys, params: params})
+	resp = *res
 	return
 }
 

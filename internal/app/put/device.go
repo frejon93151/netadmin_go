@@ -11,7 +11,7 @@ import (
 	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
 
-func Device(id int, opts models.DevicePostOpts) (resp *http.Response, err error) {
+func Device(id int, opts models.DevicePostOpts) (resp http.Response, err error) {
 	body, err := json.Marshal(opts)
 	if err != nil {
 		return
@@ -27,7 +27,8 @@ func Device(id int, opts models.DevicePostOpts) (resp *http.Response, err error)
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("NETADMIN__ACCESS_TOKEN")))
 
-	resp, err = http.DefaultClient.Do(req)
+	res, err := http.DefaultClient.Do(req)
+	resp = *res
 	if resp.StatusCode == 401 {
 		utils.RenewAccessToken()
 		resp, err = Device(id, opts)
