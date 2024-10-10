@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	models "github.com/frejon93151/netadmin_go/internal/app/Models"
+	"github.com/frejon93151/netadmin_go/internal/app/models"
 )
 
 func PhysicalInterfaces(opts models.PhysGetOpts) (resp *http.Response, err error) {

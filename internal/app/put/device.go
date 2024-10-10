@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	models "github.com/frejon93151/netadmin_go/internal/app/Models"
+	"github.com/frejon93151/netadmin_go/internal/app/models"
 	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
 

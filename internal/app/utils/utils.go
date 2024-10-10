@@ -73,3 +73,9 @@ func ExclusiveParams(a any, b any) bool {
 	}
 	return false
 }
+
+func MapStruct[T interface{}](obj interface{}) (newObj T) {
+	objT := reflect.TypeOf(obj)
+	fmt.Printf("%v", objT.ConvertibleTo(reflect.TypeOf(newObj)))
+	return
+}
