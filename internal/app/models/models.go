@@ -12,7 +12,7 @@ type FilterResp[T comparable] struct {
 	TotalItems       int `json:"totalItems"`
 	StartIndex       int `json:"startIndex"`
 	CurrentItemCount int `json:"currentItemCount"`
-	Items            T   `json:"items"`
+	Items            []T `json:"items"`
 }
 
 /*
@@ -45,7 +45,7 @@ type DeviceDTO struct {
 }
 
 type DevicePostOpts struct {
-	IncludeCredentials       *bool  `json:"includeCredentials,omitempty"`
+	IncludeCredentials       bool   `json:"includeCredentials,omitempty"`
 	Name                     string `json:"name,omitempty"`
 	ManagementAddress        string `json:"managementAddress,omitempty"`
 	HostName                 string `json:"hostName,omitempty"`
@@ -80,42 +80,4 @@ type DeviceGetOpts struct {
 	PageIndex            int      `json:"pageIndex,omitempty"`
 	ItemsPerPage         int      `json:"itemsPerPage,omitempty"`
 	OnlyRootDevices      bool     `json:"onlyRootDevices,omitempty"`
-}
-
-/*
-PhysicalInterface structs
-*/
-type PhysDTO struct {
-	Id                   int    `json:"id"`
-	Name                 string `json:"name"`
-	Number               int    `json:"number"`
-	Panel                string `json:"panel"`
-	Medium               string `json:"medium"`
-	Role                 string `json:"role"`
-	Identifier           string `json:"identifier"`
-	Description          string `json:"description"`
-	Option82             string `json:"option82"`
-	Fqpn                 string `json:"fqpn"`
-	AddressId            int    `json:"addressId"`
-	AdministrativeStatus string `json:"administrativeStatus"`
-	OperationalStatus    string `json:"operationalStatus"`
-	SlotName             string `json:"slotName"`
-	DeviceId             int    `json:"deviceId"`
-	DeviceName           string `json:"deviceName"`
-	RootDeviceId         int    `json:"rootDeviceId"`
-	RootDeviceName       string `json:"rootDeviceName"`
-}
-
-type PhysGetOpts struct {
-	Ids          []int  `json:"ids,omitempty"`
-	Name         string `json:"name,omitempty"`
-	DeviceName   string `json:"deviceName,omitempty"`
-	Identifier   string `json:"identifier,omitempty"`
-	Option82     string `json:"option82,omitempty"`
-	Fqpn         string `json:"fqpn,omitempty"`
-	Number       int    `json:"number,omitempty"`
-	DeviceId     int    `json:"deviceId,omitempty"`
-	AddressId    int    `json:"addressId,omitempty"`
-	PageIndex    int    `json:"pageIndex,omitempty"`
-	ItemsPerPage int    `json:"itemsPerPage,omitempty"`
 }

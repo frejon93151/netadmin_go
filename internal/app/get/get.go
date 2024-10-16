@@ -13,50 +13,57 @@ import (
 )
 
 var baseUrl = "https://login.halmstadsstadsnat.se/api/"
-var urlTempl = baseUrl + "%s?%s"
-var phys = "physicalinterfaces"
-var devices = "devices"
-var devicePhysTempl = "devices/%d/physicalinterfaces"
+var urlTempl = baseUrl + "%s"
 
-func doGet(opts doGetOpts) (*http.Response, error) {
-	req := &http.Request{}
-	var err error
-	if opts.req != nil {
-		req = opts.req
-		req.Method = "GET"
-	} else {
-		req, err = http.NewRequest(
-			"GET",
-			endpointBuilder(opts.endpoint, opts.params),
-			nil,
-		)
-		if err != nil {
-			return nil, err
-		}
+var retries = 0
+
+func doGet(endpoint string, params *url.Values) (*http.Response, error) {
+	accesstoken, hasToken := os.LookupEnv("NETADMIN__ACCESS_TOKEN")
+	if !hasToken || accesstoken != "" {
+		utils.RenewAccessToken()
+		accesstoken, hasToken = os.LookupEnv("NETADMIN__ACCESS_TOKEN")
 	}
-	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Authorization", os.Getenv("NETADMIN__ACCESS_TOKEN"))
 
-	res, err := http.DefaultClient.Do(req)
-	resp := *res
+	uri := endpointBuilder(endpoint, params)
+	req, err := http.NewRequest(
+		"GET",
+		uri,
+		nil,
+	)
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode == 401 {
-		utils.RenewAccessToken()
-		doGet(opts)
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", accesstoken))
+
+	fmt.Println(req)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
 	}
 
-	return &resp, err
+	if resp.StatusCode == 401 && retries < 5 {
+		retries++
+		utils.RenewAccessToken()
+		resp, err = doGet(endpoint, params)
+	}
+
+	retries = 0
+
+	return resp, err
 }
 
 func endpointBuilder(endpoint string, params *url.Values) string {
-	completeUrl := fmt.Sprintf(urlTempl, endpoint, params.Encode())
-	return completeUrl
+	uri := fmt.Sprintf(urlTempl, endpoint)
+	if params != nil {
+		if len(params.Encode()) != 0 {
+			uri = uri + "?" + params.Encode()
+		}
+	}
+	return uri
 }
 
 type doGetOpts struct {
 	endpoint string
 	params   *url.Values
-	req      *http.Request
 }

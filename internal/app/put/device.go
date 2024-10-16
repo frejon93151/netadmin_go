@@ -1,3 +1,6 @@
+/*
+Copyright © 2024 HALMSTADS STADSNÄT AB fredrik.jonsson1@halmstad.se
+*/
 package put
 
 import (
@@ -26,13 +29,15 @@ func Device(id int, opts models.DevicePostOpts) (*http.Response, error) {
 	}
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("NETADMIN__ACCESS_TOKEN")))
+	req.Header.Add("Content-Type", "application/json")
 
-	res, err := http.DefaultClient.Do(req)
-	resp := *res
+	fmt.Sprintln(string(body))
+	fmt.Sprintln(req)
+
+	resp, err := http.DefaultClient.Do(req)
 	if resp.StatusCode == 401 {
 		utils.RenewAccessToken()
-		res, err = Device(id, opts)
-		resp = *res
+		resp, err = Device(id, opts)
 	}
-	return &resp, err
+	return resp, err
 }

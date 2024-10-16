@@ -12,65 +12,80 @@ import (
 	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
 
-func Devices(opts models.DeviceGetOpts) (*http.Response, error) {
+var (
+	devices            = "devices"
+	devicePhysIfTempl  = "devices/%d/physicalinterfaces"
+	devicePhysLnkTempl = "devices/%d/physicallinks"
+	deviceAuthTempl    = "devices/%d/authentications"
+)
+
+func Devices(opts models.DeviceGetOpts) (resp *http.Response, err error) {
 	params, err := deviceParams(opts)
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := doGet(doGetOpts{
-		endpoint: devices,
-		params:   params,
-	})
-	resp := *res
-	return &resp, err
+	resp, err = doGet(devices, &params)
+	return
 }
 
-func DevicePhysicalInterfaces(id int, pageIndex int, itemsPerPage int) (*http.Response, error) {
+func DevicePhysicalInterfaces(id int, pageIndex int, itemsPerPage int) (resp *http.Response, err error) {
 	params := &url.Values{
 		"pageIndex":    {fmt.Sprintf("%d", pageIndex)},
 		"itemsPerPage": {fmt.Sprintf("%d", itemsPerPage)},
 	}
 
-	res, err := doGet(doGetOpts{
-		endpoint: fmt.Sprintf(devicePhysTempl, id),
-		params:   params,
-	})
-	resp := *res
-	return &resp, err
+	resp, err = doGet(fmt.Sprintf(devicePhysIfTempl, id), params)
+	return
 }
 
-func deviceParams(opts models.DeviceGetOpts) (params *url.Values, err error) {
-	if utils.ExclusiveParams(opts.ManagementAddress, opts.ManagementAddresses) {
+func DevicePhysicalLinks(id int, pageIndex int, itemsPerPage int) (resp *http.Response, err error) {
+	params := &url.Values{
+		"pageIndex":    {fmt.Sprintf("%d", pageIndex)},
+		"itemsPerPage": {fmt.Sprintf("%d", itemsPerPage)},
+	}
+
+	resp, err = doGet(fmt.Sprintf(devicePhysLnkTempl, id), params)
+	return
+}
+
+func DeviceAuthentications(id int) (resp *http.Response, err error) {
+	resp, err = doGet(fmt.Sprintf(deviceAuthTempl, id), nil)
+	return
+}
+
+func deviceParams(opts models.DeviceGetOpts) (params url.Values, err error) {
+	params = make(url.Values)
+	if exclusive := utils.ExclusiveParams(opts.ManagementAddress, opts.ManagementAddresses); exclusive {
 		err = fmt.Errorf(
-			"%s and %s are mutually exclusive options",
+			"deviceParams: Error - %v and %v are mutually exclusive options",
 			utils.NameOf(opts.ManagementAddress),
 			utils.NameOf(opts.ManagementAddresses))
 		return
 	}
 	for _, item := range opts.Ids {
-		params.Add("ids", fmt.Sprintf("%d", item))
+		utils.TryAddParams(&params, "ids", item)
 	}
 	for _, item := range opts.CompanyIds {
-		params.Add("companyIds", fmt.Sprintf("%d", item))
+		utils.TryAddParams(&params, "companyIds", fmt.Sprintf("%d", item))
 	}
 	for _, item := range opts.ManagementAddresses {
-		params.Add("managementAddresses", item)
+		utils.TryAddParams(&params, "managementAddresses", item)
 	}
-	params.Add("name", opts.Name)
-	params.Add("managementAddress", opts.ManagementAddress)
-	params.Add("hostName", opts.HostName)
-	params.Add("serialNumber", opts.SerialNumber)
-	params.Add("function", opts.DeviceFunction)
-	params.Add("type", opts.TypeName)
-	params.Add("definitionName", opts.DefinitionName)
-	params.Add("software", opts.Software)
-	params.Add("alertGroup", opts.AlertGroup)
-	params.Add("administrativeStatus", opts.AdministrativeStatus)
-	params.Add("operationalStatus", opts.OperationalStatus)
-	params.Add("modifiedSince", opts.ModifiedSince)
-	params.Add("pageIndex", fmt.Sprintf("%d", opts.PageIndex))
-	params.Add("itemsPerPage", fmt.Sprintf("%d", opts.ItemsPerPage))
-	params.Add("onlyRootDevices", fmt.Sprintf("%t", opts.OnlyRootDevices))
+	utils.TryAddParams(&params, "name", opts.Name)
+	utils.TryAddParams(&params, "managementAddress", opts.ManagementAddress)
+	utils.TryAddParams(&params, "hostName", opts.HostName)
+	utils.TryAddParams(&params, "serialNumber", opts.SerialNumber)
+	utils.TryAddParams(&params, "function", opts.DeviceFunction)
+	utils.TryAddParams(&params, "type", opts.TypeName)
+	utils.TryAddParams(&params, "definitionName", opts.DefinitionName)
+	utils.TryAddParams(&params, "software", opts.Software)
+	utils.TryAddParams(&params, "alertGroup", opts.AlertGroup)
+	utils.TryAddParams(&params, "administrativeStatus", opts.AdministrativeStatus)
+	utils.TryAddParams(&params, "operationalStatus", opts.OperationalStatus)
+	utils.TryAddParams(&params, "modifiedSince", opts.ModifiedSince)
+	utils.TryAddParams(&params, "pageIndex", fmt.Sprintf("%d", opts.PageIndex))
+	utils.TryAddParams(&params, "itemsPerPage", fmt.Sprintf("%d", opts.ItemsPerPage))
+	utils.TryAddParams(&params, "onlyRootDevices", fmt.Sprintf("%t", opts.OnlyRootDevices))
 	return
 }

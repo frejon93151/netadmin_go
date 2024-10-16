@@ -9,7 +9,10 @@ import (
 	"net/url"
 
 	"github.com/frejon93151/netadmin_go/internal/app/models"
+	"github.com/frejon93151/netadmin_go/internal/app/utils"
 )
+
+var phys = "physicalinterfaces"
 
 func PhysicalInterfaces(opts models.PhysGetOpts) (*http.Response, error) {
 	params, err := physParams(opts)
@@ -17,24 +20,25 @@ func PhysicalInterfaces(opts models.PhysGetOpts) (*http.Response, error) {
 		return nil, err
 	}
 
-	res, err := doGet(doGetOpts{endpoint: phys, params: params})
+	res, err := doGet(phys, &params)
 	resp := *res
 	return &resp, err
 }
 
-func physParams(opts models.PhysGetOpts) (params *url.Values, err error) {
+func physParams(opts models.PhysGetOpts) (params url.Values, err error) {
+	params = make(url.Values)
 	for _, item := range opts.Ids {
-		params.Add("ids", fmt.Sprintf("%d", item))
+		utils.TryAddParams(&params, "ids", fmt.Sprintf("%d", item))
 	}
-	params.Add("name", opts.Name)
-	params.Add("deviceName", opts.DeviceName)
-	params.Add("identifier", opts.Identifier)
-	params.Add("option82", opts.Option82)
-	params.Add("fqpn", opts.Fqpn)
-	params.Add("number", fmt.Sprintf("%d", opts.Number))
-	params.Add("deviceId", fmt.Sprintf("%d", opts.DeviceId))
-	params.Add("addressId", fmt.Sprintf("%d", opts.AddressId))
-	params.Add("pageIndex", fmt.Sprintf("%d", opts.PageIndex))
-	params.Add("itemsPerPage", fmt.Sprintf("%d", opts.ItemsPerPage))
+	utils.TryAddParams(&params, "name", opts.Name)
+	utils.TryAddParams(&params, "deviceName", opts.DeviceName)
+	utils.TryAddParams(&params, "identifier", opts.Identifier)
+	utils.TryAddParams(&params, "option82", opts.Option82)
+	utils.TryAddParams(&params, "fqpn", opts.Fqpn)
+	utils.TryAddParams(&params, "number", fmt.Sprintf("%d", opts.Number))
+	utils.TryAddParams(&params, "deviceId", fmt.Sprintf("%d", opts.DeviceId))
+	utils.TryAddParams(&params, "addressId", fmt.Sprintf("%d", opts.AddressId))
+	utils.TryAddParams(&params, "pageIndex", fmt.Sprintf("%d", opts.PageIndex))
+	utils.TryAddParams(&params, "itemsPerPage", fmt.Sprintf("%d", opts.ItemsPerPage))
 	return
 }
